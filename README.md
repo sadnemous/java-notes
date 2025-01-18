@@ -49,6 +49,18 @@ These beans are then managed by the Spring container.<br>
 Interesting notes from https://www.digitalocean.com/community/tutorials/spring-configuration-annotation
 If we remove `@Configuration`, Config class will not be singleton..
 
+#### @RestController
+`@RestController`:<br>
+  - marks a class as controller for RESTful web requests. 
+  - It combines the functionality of @Controller and @ResponseBody. Here's what it does:
+
+`@Controller`
+  − Marks the class as a Spring MVC controller
+  - responsible for handling incoming HTTP requests.
+
+`@ResponseBody`
+ - Tells Spring to serialize the return value of the controller's method directly into the HTTP response body, typically in formats like JSON or XML.
+
 
 
 
