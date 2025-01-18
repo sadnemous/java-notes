@@ -61,8 +61,68 @@ If we remove `@Configuration`, Config class will not be singleton..
 `@ResponseBody`
  - Tells Spring to serialize the return value of the controller's method directly into the HTTP response body, typically in formats like JSON or XML.
 
+#### 5. ResponseEntity:
+In Spring Boot, ResponseEntity is a class that allows you to have fine-grained control over the HTTP response sent back to the client from your REST controllers. <br>
+It provides a way to customize the status code, headers, and body of the response.
+
+<b>Why use ResponseEntity?</b><br>
+Custom Status Codes:
+You can return specific HTTP status codes to indicate the outcome of an operation, <br>
+such as 
+- 200 (OK), 
+- 201 (Created), 
+- 404 (Not Found), 
+- 500 (Internal Server Error), etc.<br>
+
+Custom Headers:<br>
+Add additional headers to the response to provide further information, <br>
+such as caching directives or authentication tokens.<br>
 
 
+Flexibility in Response Body:
+Return different types of data in the response body, including JSON, XML, plain text, or even custom objects.
+Example:
+```java
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class UserController {
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(Long id) {
+        User user = userService.findById(id);
+
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+}
+```
+<b>Explanation:</b><br>
+The getUserById method attempts to retrieve a user by ID.<br>
+If the user is found, it returns a ResponseEntity with the user object and a 200 OK status code.<br>
+If the user is not found, it returns a ResponseEntity with a 404 Not Found status code.<br>
+
+
+When to use ResponseEntity?<br>
+When you need to customize the HTTP status code beyond the standard 200 OK.<br>
+When you need to add extra headers to the response.<br>
+When you want to return different types of data in the response body based on the outcome of an operation.<br>
+
+
+Alternative:<br>
+If you don't need to customize the response, you can simply return the object from your controller method, and Spring will handle the rest.<br>
+```java
+@GetMapping("/users")
+public List<User> getAllUsers() {
+    return userService.findAll();
+}
+```
 
 
 
